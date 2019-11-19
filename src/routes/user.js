@@ -114,4 +114,23 @@ router.get("/", async (req, res) => {
   }
 });
 
+// @ROUTE : GET api/user/:username
+// @DESC  : This route will return a single user detail based on username
+// @Access : Public
+router.get("/:username", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username }).select(
+      "-password"
+    );
+
+    if (!user) {
+      return res.status(404).send("Not found");
+    }
+    res.json(user);
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;
