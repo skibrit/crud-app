@@ -4,7 +4,7 @@ it's a simple test app that has two basic router. User & post. Login, registrati
 Authenticated users can create/update post through post router
 
 ### Route user:
-#### GET api/user?src='desc' [Public]
+#### GET api/user?sort='desc' [Public]
 returns all the users in the database. 
 example response-
 ``` 
