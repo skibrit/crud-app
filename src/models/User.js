@@ -23,4 +23,8 @@ const UserScheme = new mongoose.Schema(
   { collection: "Users" }
 );
 
+UserScheme.pre("remove", async function() {
+  await this.model("Post").deleteMany({ postedBy: this._id });
+});
+
 module.exports = mongoose.model("User", UserScheme);
