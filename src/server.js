@@ -15,6 +15,16 @@ app.use(express.json({ extended: false }));
 app.use("/api/user", routeList.User);
 app.use("/api/post", routeList.Post);
 
+app.get("/", function(req, res) {
+  res.send("Welcome to Test App");
+});
+
+app.use(function(err, req, res, next) {
+  console.error(err.message);
+  if (!err.statusCode) err.statusCode = 500;
+  res.status(err.statusCode).send(err.message);
+});
+
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}`);
 });
