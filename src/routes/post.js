@@ -93,4 +93,22 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// @ROUTE : DELETE api/post
+// @DESC  : This route will delete a post from database
+// @Access : PRIVATE
+router.delete("/:id", [authMiddleware], async (req, res) => {
+  try {
+    const { id: userId } = req.user;
+    const { id: postId } = req.params;
+    await Post.findOneAndDelete({ _id: postId, postedBy: userId });
+    res.json({ msg: "Delete successful" });
+  } catch (err) {
+    console.log(err.message);
+    if (err.kind == "ObjectId") {
+      return res.status(404).send("Not found");
+    }
+    return res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;
