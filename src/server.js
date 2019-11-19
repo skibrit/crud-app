@@ -7,12 +7,12 @@ const PORT = process.env.PORT || 6000;
 //create a connection to database
 dbConnecter();
 
-// attach routes
-app.use("/api/user", routeList.User);
-
 //add middleware parse
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ extended: false }));
+
+// attach routes
+app.use("/api/user", routeList.User);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}`);
