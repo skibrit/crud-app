@@ -97,4 +97,21 @@ router.post("/login", validationRules, async (req, res) => {
   }
 });
 
+// @ROUTE : GET api/user/:sortOrder?
+// @DESC  : This route will return all the user in the database. Default sort is desc
+// @Access : Public
+router.get("/", async (req, res) => {
+  try {
+    const { sort } = req.query;
+    const sortOrder = sort == "asc" ? 1 : -1;
+    const users = await User.find()
+      .select("-password")
+      .sort({ regDate: sortOrder });
+    res.json(users);
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;
