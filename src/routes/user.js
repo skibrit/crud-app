@@ -54,4 +54,47 @@ router.post("/register", validationRules, async (req, res) => {
   }
 });
 
+// @ROUTE : POST api/user/login
+// @DESC  : This route allows user to log in
+// @Access : Public
+router.post("/login", validationRules, async (req, res) => {
+  //check if all the validation has been done
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const { username, password } = req.body;
+  try {
+    const user = await User.findOne({ username });
+    const defaultError = { msg: "Username or password invalid" };
+    if (!user) {
+      return res.status(400).json({ errors: [defaultError] });
+    }
+    //check the password by comparing with bCrypt
+    const isMatched = await bCrypt.compare(password, user.password);
+    if (!isMatched) {
+      return res.status(400).json({ errors: [defaultError] });
+    }
+
+    //update last login time
+    await User.findOneAndUpdate(
+      { username },
+      { $set: { lastLoginTime: new Date() } },
+      { new: true }
+    );
+
+    const payload = {
+      user: {
+        id: user.id
+      }
+    };
+    //sent jwt token to the user
+    let token = await signToken(payload, config.get("jwtSecret"), "1000h");
+    res.json({ token });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;
