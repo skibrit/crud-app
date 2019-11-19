@@ -33,7 +33,7 @@ allows user to login and sends a jwt token,
 example response-
 ```
  {
-   token:'token'
+   token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWRkNDRhNzZlNTEyMmE1ZmVjN2JiZDdjIn0sImlhdCI6MTU3NDE5NDM4MiwiZXhwIjoxNTc3Nzk0MzgyfQ.D5dy01sfMp6_xV62GS7Z7z8_9k9XJBqEF0MC75T39yI'
  }
  ```
 #### POST api/user/register [Public]
@@ -41,7 +41,7 @@ allows user to register and sends a jwt token.
 example response-
 ```
  {
-   token:'token'
+   token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWRkNDRhNzZlNTEyMmE1ZmVjN2JiZDdjIn0sImlhdCI6MTU3NDE5NDM4MiwiZXhwIjoxNTc3Nzk0MzgyfQ.D5dy01sfMp6_xV62GS7Z7z8_9k9XJBqEF0MC75T39yI'
  }
  ```
 #### DELETE api/user [Private]
