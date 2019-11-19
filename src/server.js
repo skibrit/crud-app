@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
+const dbConnecter = require("../config/dbConnecter");
 const PORT = process.env.PORT || 6000;
+
+//create a connection to database
+dbConnecter();
 
 //add middleware parse
 app.use(express.urlencoded({ extended: false }));
