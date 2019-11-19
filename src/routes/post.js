@@ -56,8 +56,41 @@ router.post(
   }
 );
 
-router.get("/", (req, res) => {
-  res.json({ msg: "Welcome to post route" });
+// @ROUTE : GET api/post/:sortOrder?
+// @DESC  : This route returns all the post in the database
+// @Access : Public
+router.get("/", async (req, res) => {
+  try {
+    const { sort } = req.query;
+    const sortOrder = sort == "asc" ? 1 : -1;
+    const posts = await Post.find().populate("postedBy", ["username"]).sort({
+      postTime: sortOrder
+    });
+    res.json(posts);
+  } catch (err) {
+    return res.status(500).send("Server error");
+  }
+});
+
+// @ROUTE : GET api/post/:id
+// @DESC  : This route returns a single post based on the id
+// @Access : Public
+router.get("/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id).populate("postedBy", [
+      "username"
+    ]);
+    if (!post) {
+      return res.status(404).send("Not found");
+    }
+    res.json(post);
+  } catch (err) {
+    console.log(err.message);
+    if (err.kind == "ObjectId") {
+      return res.status(404).send("Not found");
+    }
+    return res.status(500).send("Server error");
+  }
 });
 
 module.exports = router;
