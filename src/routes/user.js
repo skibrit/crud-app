@@ -5,6 +5,7 @@ const bCrypt = require("bcrypt");
 const { validationResult, check } = require("express-validator");
 const config = require("config");
 const { signToken } = require("../utils/crypto");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 let validationRules = [
   check("username", "Username is required").not().isEmpty(),
@@ -127,6 +128,21 @@ router.get("/:username", async (req, res) => {
       return res.status(404).send("Not found");
     }
     res.json(user);
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send("Server error");
+  }
+});
+
+// @ROUTE : DELETE api/user/:username
+// @DESC  : This route will delete a user from database
+// @Access : Public
+router.delete("/", [authMiddleware], async (req, res) => {
+  try {
+    const { id: userId } = req.user;
+    const user = await User.findById(userId);
+    await user.remove();
+    res.json({ msg: "Delete successful" });
   } catch (err) {
     console.log(err.message);
     return res.status(500).send("Server error");
