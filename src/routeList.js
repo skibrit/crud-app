@@ -1,3 +1,4 @@
 module.exports = {
-  User: require("./routes/user")
+  User: require("./routes/user"),
+  Post: require("./routes/post")
 };

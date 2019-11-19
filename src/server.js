@@ -13,6 +13,7 @@ app.use(express.json({ extended: false }));
 
 // attach routes
 app.use("/api/user", routeList.User);
+app.use("/api/post", routeList.Post);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}`);

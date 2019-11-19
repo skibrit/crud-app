@@ -134,9 +134,9 @@ router.get("/:username", async (req, res) => {
   }
 });
 
-// @ROUTE : DELETE api/user/:username
+// @ROUTE : DELETE api/user/
 // @DESC  : This route will delete a user from database
-// @Access : Public
+// @Access : Private
 router.delete("/", [authMiddleware], async (req, res) => {
   try {
     const { id: userId } = req.user;
